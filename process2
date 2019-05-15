@@ -1,0 +1,30 @@
+<?php 
+ session_start();
+
+ //connect to database
+ $db=mysql_connect("localhost", "root","");
+
+ if (isset($_POST['register_btn']))
+ {
+      session_start();
+      $username=mysql_real_escape_string($_POST['user']);
+      $password=mysql_real_escape_string($_POST['pass']);
+      $password2=mysql_real_escape_string($_POST['pass2']);
+
+      if ($password==$password2) {
+        
+        $password =md5($password);
+        $sql ="INSERT INTO user (username,password) VALUES ('$username','$password')";
+        mysql_query($db ,$sql);
+        $_SESSION['message']="You are now logged in";
+        $_SESSION['user']=$username;
+        header("location: login.html")  //home.php , redirect to home page
+        }
+
+        else 
+        {  $_SESSION['message']="The two password  do not match" ; 
+        }
+
+      }
+
+ ?>
